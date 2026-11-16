@@ -7,9 +7,9 @@ A lightweight full-stack Address Book application built with **Python Flask**, *
 - **Bookmark Contacts (1.1)**: Star/unstar important or frequent contacts, persist favorite status in SQLite, and switch between **All Contacts** and **Bookmarked** views with one click.
 - **Multiple Contact Methods (1.2)**: Associate multiple phone numbers, email addresses, social media handles, physical addresses, and custom methods (with labels such as `Mobile`, `Work`, `WeChat`, `Home`) with each contact.
 - **Excel Import & Export (1.3)**:
-  - **Export**: Each contact occupies one row and each category of information occupies a dedicated column (`Name`, `Favorite`, `Company`, `Title`, `Phone Numbers`, `Emails`, `Social Media`, `Addresses`, `Other Contacts`, `Notes`). Phone values are stored as text to preserve leading zeros.
-  - **Import**: Upload `.xlsx` spreadsheets to batch-import contacts with header validation and row-level feedback. Includes a downloadable template and sample file (`samples/demo_contacts.xlsx`).
-- **Contact Management & UI**: Search across names, companies, notes, and contact details; create, edit, and delete contacts; load demo data; sort by favorites or name.
+  - **Export**: Each contact occupies one row and each category of information occupies a dedicated column (`Name`, `Favorite`, `Company`, `Title`, `Phone Numbers`, `Emails`, `Social Media`, `Addresses`, `Other Contacts`, `Notes`). Phone values are stored as text to preserve leading zeros, and switching to the Bookmarked view switches the export action to export only bookmarked contacts.
+  - **Import**: Upload `.xlsx` spreadsheets to batch-import contacts with header validation, configurable duplicate-name handling (`skip` / `update` / `allow`), and row-level feedback. Includes a downloadable template and sample file (`samples/demo_contacts.xlsx`).
+- **Contact Management, Themes & Bilingual UI**: Search across names, companies, notes, and contact details; create, edit, and delete contacts; copy contact methods with one click; switch between **Light**, **Dark**, **Ocean Breeze**, and **Warm Paper** themes as well as **English / 中文** interface languages.
 
 ## Project Structure
 

@@ -81,11 +81,12 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 
 ### 3.1 页面样式与交互布局
 
-前端采用顶部工具栏 + 视图切换标签栏 + 响应式联系人卡片网格布局（`static/css/style.css`）：
+前端采用顶部工具栏 + 视图切换标签栏 + 响应式联系人卡片网格布局（`static/css/style.css`、`static/js/app.js`）：
 
-- 顶部提供 `Load Demo`（加载示例数据）、`Template`（下载导入模板）、`Import Excel`、`Export Excel` 与 `+ New Contact` 快捷操作。
-- 中部提供 `All Contacts` 与 `★ Bookmarked` 视图切换及实时搜索、排序（按收藏优先、姓名 A–Z、最近更新）。
-- 每张操作反馈均通过右下角 Toast 提示呈现。
+- 右上角支持**多主题风格切换**（浅色简约 `Light`、深色夜间 `Dark`、海风青蓝 `Ocean Breeze`、暖纸手账 `Warm Paper`，以及一键亮/暗切换）与 **中/英文双语切换**（偏好通过 `localStorage` 持久化）。
+- 顶部提供 `Load Demo`（加载示例数据）、`Template`（下载导入模板）、`Import Excel`、`Export Excel`（在收藏视图下自动切换为 `Export Bookmarked`）与 `+ New Contact` 快捷操作。
+- 中部提供 `All Contacts` 与 `★ Bookmarked` 视图切换及实时搜索、排序（按收藏优先、姓名 A–Z、最近更新），每条联系方式支持一键复制及电话/邮箱/链接直达。
+- 每项操作反馈均通过右下角 Toast 提示呈现。
 
 ### 3.2 联系人收藏（Bookmark Contacts）
 
@@ -101,7 +102,7 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 ### 3.4 Excel 导入与导出（Import and Export）
 
 - **导出（`export_contacts_to_xlsx`）**：使用 `openpyxl` 生成 `.xlsx` 文件，确保**每位联系人占一行、每类信息占一列**，列顺序为：`Name`、`Favorite`、`Company`、`Title`、`Phone Numbers`、`Emails`、`Social Media`、`Addresses`、`Other Contacts`、`Notes`。同一类别的多条联系方式按 `Label: Value; ...` 格式组织；单元格设置 `number_format = "@"` 文本格式，避免 `0591-...`、`0086...` 等带前导零的电话号码在 Excel 中丢失前导零。
-- **导入（`import_contacts_from_xlsx`）**：校验 `.xlsx` 文件有效性及首行必须包含 `Name` 列（兼容常见中英文表头别名），解析各列多条联系方式并保留含 `https://` 的完整链接，支持跳过空行或缺失姓名的异常行并返回 `imported_count`、`skipped_count` 与 `errors` 明细。
+- **导入（`import_contacts_from_xlsx`）**：校验 `.xlsx` 文件有效性及首行必须包含 `Name` 列（兼容常见中英文表头别名），支持**同名联系人处理策略**（`skip` 跳过重复、`update` 覆盖更新、`allow` 全部作为新联系人导入），解析各列多条联系方式并保留含 `https://` 的完整链接，跳过空行或缺失姓名的异常行并返回 `imported_count`、`updated_count`、`skipped_count` 与 `errors` 明细。
 
 ---
 

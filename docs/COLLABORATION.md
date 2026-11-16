@@ -36,6 +36,6 @@ Pick one or more of the following self-contained tasks to implement and verify l
 1. **Edge-case & UI Interaction Tests (`tests/test_contacts_api.py` / `tests/test_excel.py`)**:
    - Add tests for searching by partial phone number / social media handle, sorting favorites first, and importing spreadsheets with Chinese alias headers (`姓名`, `电话`, `邮箱`, `收藏`).
 2. **Frontend Usability Polish (`static/js/app.js`, `static/css/style.css`, `templates/index.html`)**:
-   - Add a one-click "Copy" button next to phone numbers / email addresses on contact cards, or keyboard shortcut (`/` to focus search, `Esc` to close modals).
+   - Add keyboard shortcuts (`/` to focus search, `Esc` to close open modals), or a filter pill to filter by contact method type (`Phone` / `Email` / `Social`).
 3. **Demo Data & Documentation (`samples/`, `README.md`)**:
    - Add additional realistic synthetic test contacts or document verification screenshots and runtime notes.
