@@ -30,8 +30,8 @@
 | GitHub 仓库地址 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming |
 | 代码规范链接 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/blob/main/docs/CODE_STYLE.md |
 | 协作流程说明 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/blob/main/docs/COLLABORATION.md |
-| Pull Request 链接 | `[合并队友 PR 后填写真实 PR URL]` |
-| Release 版本链接 | `[发布 v1.0.0 后填写真实 Release URL]` |
+| Pull Request 链接 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/pull/1 |
+| Release 版本链接 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/releases/tag/v1.0.0 |
 | 在线访问地址（阿里云部署） | http://8.163.36.172 |
 
 ### 技术栈与本地构建运行方式
@@ -72,8 +72,8 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 
 | 成员学号 | 负责模块与工作内容 | 对应文件 / 交付物 |
 | --- | --- | --- |
-| `832402220` | 仓库搭建、数据库设计、核心后端 API、多种联系方式与 Excel 导入导出、基础前端界面与核心测试 | `address_book/*.py`、`templates/index.html`、`static/*`、`tests/*`、`docs/CODE_STYLE.md` |
-| `832402216` | `[根据队友最终 PR 实际改动填写，例如：Fork 仓库评审、边界测试用例补充、界面交互优化 / 示例数据完善 / 协同验证与博客整理]` | `[填写队友 PR 中修改的文件与验证记录]` |
+| `832402220`（`w1457344108-coder`） | 仓库搭建、数据库设计、核心后端 API、多种联系方式与 Excel 导入导出（含防重复策略）、多主题与双语前端、阿里云部署及 PR 审查合并 | `address_book/*.py`、`templates/index.html`、`static/*`、`deploy/setup_server.sh`、`tests/*`、`docs/*` |
+| `832402216`（`LiuJianhao7`） | Fork 仓库开发、键盘快捷键（`/` 聚焦搜索、`Esc` 关闭弹窗）、双语搜索清空按钮及中文表头/搜索排序边界测试（[PR #1](https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/pull/1)） | `templates/index.html`、`static/css/style.css`、`static/js/app.js`、`tests/test_contacts_api.py`、`tests/test_excel.py` |
 
 ---
 
@@ -85,7 +85,7 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 
 - 右上角支持**多主题风格切换**（浅色简约 `Light`、深色夜间 `Dark`、海风青蓝 `Ocean Breeze`、暖纸手账 `Warm Paper`，以及一键亮/暗切换）与 **中/英文双语切换**（偏好通过 `localStorage` 持久化）。
 - 顶部提供 `Load Demo`（加载示例数据）、`Template`（下载导入模板）、`Import Excel`、`Export Excel`（在收藏视图下自动切换为 `Export Bookmarked`）与 `+ New Contact` 快捷操作。
-- 中部提供 `All Contacts` 与 `★ Bookmarked` 视图切换及实时搜索、排序（按收藏优先、姓名 A–Z、最近更新），每条联系方式支持一键复制及电话/邮箱/链接直达。
+- 中部提供 `All Contacts` 与 `★ Bookmarked` 视图切换及实时搜索、一键清空搜索、排序（按收藏优先、姓名 A–Z、最近更新），支持 `/` 聚焦搜索与 `Esc` 关闭弹窗快捷键，每条联系方式支持一键复制及电话/邮箱/链接直达。
 - 每项操作反馈均通过右下角 Toast 提示呈现。
 
 ### 3.2 联系人收藏（Bookmark Contacts）
@@ -128,15 +128,15 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 
 ## 5. GitHub 提交历史与版本发布
 
-> 请在队友完成 Fork、PR 合并并发布 `v1.0.0` Release 后，截取 GitHub Insights / Commits 页面并核对以下统计。
+> 以下统计口径以 `main` 分支最终提交历史为准；发布博客前请截取 GitHub Commits / Insights 页面一并附上。
 
-- **仓库总提交次数**：`[合并后核对实际数字，当前基线已有 4 次以上，最终应 ≥ 3]`
+- **仓库总提交次数**：`14` 次（包含 PR #1 合并提交，远超 ≥ 3 次要求）
 - **GitHub 提交历史截图**：`[插入仓库 Commits 历史截图]`
 
 | 贡献者（GitHub 账号 / 学号） | 实际提交次数 | 说明 / PR 链接 |
 | --- | --- | --- |
-| `w1457344108-coder`（`832402220`） | `[核对后填写]` | 仓库初始化、核心后端、前端 UI、基础测试及 PR 合并 |
-| `[填写队友 GitHub ID]`（`832402216`） | `[核对后填写]` | `[填写队友 PR 链接与修改说明]` |
+| `w1457344108-coder`（`832402220`） | `12` 次（含 PR 合并提交） | 仓库初始化、核心后端、前端 UI、云部署脚本、基础测试、文档及 PR #1 合并 |
+| `LiuJianhao7`（`832402216`） | `2` 次 | [PR #1](https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/pull/1)：`4bac2df`（快捷键与搜索清空）与 `92d3153`（中文表头与搜索排序测试） |
 
 ---
 
