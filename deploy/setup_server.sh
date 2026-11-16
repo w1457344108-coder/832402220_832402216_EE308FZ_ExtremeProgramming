@@ -29,7 +29,9 @@ else
 fi
 
 echo "==> [2/5] Syncing repository into ${APP_DIR}..."
-if [[ -d "${APP_DIR}/.git" ]]; then
+if [[ "${SKIP_GIT_SYNC:-0}" == "1" ]]; then
+  echo "SKIP_GIT_SYNC=1 set; using existing files in ${APP_DIR}."
+elif [[ -d "${APP_DIR}/.git" ]]; then
   git -C "${APP_DIR}" fetch origin
   git -C "${APP_DIR}" reset --hard origin/main
 else
