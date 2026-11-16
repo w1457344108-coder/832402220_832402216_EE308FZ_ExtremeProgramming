@@ -7,6 +7,48 @@ import io
 from openpyxl import Workbook, load_workbook
 
 
+def test_import_chinese_header_aliases_preserves_methods_and_favorites(client):
+    """Chinese headers map to the same fields as the documented English headers."""
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.append(["姓名", "电话", "邮箱", "收藏"])
+    sheet.append(["测试甲", "手机: 008613800138000; 办公: 0591-00112233", "工作: first@example.com", "是"])
+    sheet.append(["测试乙", "00012345", "second@example.com", "否"])
+    buffer = io.BytesIO()
+    workbook.save(buffer)
+
+    response = client.post(
+        "/api/contacts/import",
+        data={"file": (io.BytesIO(buffer.getvalue()), "chinese_headers.xlsx")},
+        content_type="multipart/form-data",
+    )
+    assert response.status_code == 200
+    result = response.get_json()
+    assert result["imported_count"] == 2
+    assert result["updated_count"] == 0
+    assert result["skipped_count"] == 0
+    assert result["errors"] == []
+    assert result["total_count"] == 2
+    assert result["favorite_count"] == 1
+
+    contacts = client.get("/api/contacts").get_json()["contacts"]
+    by_name = {contact["name"]: contact for contact in contacts}
+    assert by_name["测试甲"]["is_favorite"] is True
+    assert by_name["测试乙"]["is_favorite"] is False
+    assert {
+        (method["method_type"], method["label"], method["value"])
+        for method in by_name["测试甲"]["methods"]
+    } == {
+        ("phone", "手机", "008613800138000"),
+        ("phone", "办公", "0591-00112233"),
+        ("email", "工作", "first@example.com"),
+    }
+    assert {
+        (method["method_type"], method["value"])
+        for method in by_name["测试乙"]["methods"]
+    } == {("phone", "00012345"), ("email", "second@example.com")}
+
+
 def test_excel_export_layout_and_round_trip_import(client, tmp_path):
     seed_contacts = [
         {
