@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 
 def test_index_page_renders(client):
     response = client.get("/")
@@ -115,3 +116,79 @@ def test_validation_and_search(client):
     results = search_resp.get_json()["contacts"]
     assert len(results) == 1
     assert results[0]["name"] == "Chen Yu"
+
+
+@pytest.mark.parametrize("query", ["13800138", "cloud lab"])
+def test_search_by_partial_phone_or_company(client, query):
+    """Match method values and company substrings without returning unrelated rows."""
+    for payload in [
+        {
+            "name": "Review Contact",
+            "company": "Fuzhou Cloud Lab",
+            "methods": [{"method_type": "phone", "value": "008613800138000"}],
+        },
+        {"name": "Unrelated Contact", "company": "Design Studio", "methods": []},
+    ]:
+        assert client.post("/api/contacts", json=payload).status_code == 201
+
+    response = client.get("/api/contacts", query_string={"q": query})
+    assert response.status_code == 200
+    assert [c["name"] for c in response.get_json()["contacts"]] == ["Review Contact"]
+
+
+def test_sort_name_ignores_case_and_bookmark_priority(client):
+    """Explicit name sorting takes priority over bookmark status and insertion order."""
+    for name, favorite in [("Zoe", True), ("bella", False), ("Aaron", False)]:
+        response = client.post(
+            "/api/contacts", json={"name": name, "is_favorite": favorite}
+        )
+        assert response.status_code == 201
+
+    response = client.get("/api/contacts?sort=name")
+    assert response.status_code == 200
+    assert [c["name"] for c in response.get_json()["contacts"]] == ["Aaron", "bella", "Zoe"]
+
+
+def test_sort_recent_moves_updated_contact_first(client, monkeypatch):
+    """Verify timestamp ordering before and after an update without sleeping."""
+    timestamps = iter([
+        "2026-11-01T10:00:00+00:00",
+        "2026-11-01T10:00:01+00:00",
+        "2026-11-01T10:00:02+00:00",
+        "2026-11-01T10:00:03+00:00",
+    ])
+    monkeypatch.setattr("address_book.db._utc_now_iso", lambda: next(timestamps))
+    contacts = []
+    for name in ["Oldest", "Middle", "Newest"]:
+        response = client.post("/api/contacts", json={"name": name})
+        assert response.status_code == 201
+        contacts.append(response.get_json()["contact"])
+
+    response = client.get("/api/contacts?sort=recent")
+    assert response.status_code == 200
+    assert [c["name"] for c in response.get_json()["contacts"]] == ["Newest", "Middle", "Oldest"]
+
+    response = client.put(
+        f"/api/contacts/{contacts[0]['id']}", json={"name": "Oldest Updated"}
+    )
+    assert response.status_code == 200
+    response = client.get("/api/contacts?sort=recent")
+    assert response.status_code == 200
+    assert [c["name"] for c in response.get_json()["contacts"]] == [
+        "Oldest Updated", "Newest", "Middle"
+    ]
+
+
+def test_sort_recent_breaks_equal_timestamp_ties_by_id(client, monkeypatch):
+    """Contacts created in one second have a deterministic newest-ID-first order."""
+    monkeypatch.setattr(
+        "address_book.db._utc_now_iso", lambda: "2026-11-01T10:00:00+00:00"
+    )
+    contact_ids = []
+    for name in ["First", "Second", "Third"]:
+        response = client.post("/api/contacts", json={"name": name})
+        assert response.status_code == 201
+        contact_ids.append(response.get_json()["contact"]["id"])
+    response = client.get("/api/contacts?sort=recent")
+    assert response.status_code == 200
+    assert [c["id"] for c in response.get_json()["contacts"]] == contact_ids[::-1]

@@ -97,7 +97,10 @@
             id="searchInput"
             placeholder="Search name, company, phone, email, social, or address..."
             aria-label="Search contacts"
+            aria-keyshortcuts="/"
           />
+          <button type="button" id="clearSearchBtn" class="search-clear-btn hidden"
+            aria-label="Clear search" title="Clear search" data-i18n="btnClearSearch">Clear</button>
         </div>
         <select id="sortSelect" class="sort-select" aria-label="Sort contacts">
           <option value="favorites" data-i18n="sortFavorites">Sort: Bookmarked First</option>
