@@ -24,7 +24,7 @@ const I18N = {
     btnNewContact: "+ New Contact",
     tabAll: "All Contacts",
     tabBookmarked: "Bookmarked",
-    searchPlaceholder: "Search name, company, phone, email, social, or address...",
+    searchPlaceholder: "Search name, phone, email, or tag...",
     searchLabel: "Search contacts (/)",
     btnClearSearch: "Clear",
     clearSearchLabel: "Clear search",
@@ -117,7 +117,7 @@ const I18N = {
     btnNewContact: "+ 新建联系人",
     tabAll: "全部联系人",
     tabBookmarked: "已收藏",
-    searchPlaceholder: "搜索姓名、公司、电话、邮箱、社交账号或地址...",
+    searchPlaceholder: "搜索姓名、电话、邮箱或社交账号...",
     searchLabel: "搜索联系人（/）",
     btnClearSearch: "清空",
     clearSearchLabel: "清空搜索",
@@ -765,7 +765,9 @@ function bindEvents() {
   let searchTimer = null;
   els.searchInput.addEventListener("input", (e) => {
     state.query = e.target.value;
-    els.clearSearchBtn.classList.toggle("hidden", !state.query);
+    const hasQuery = Boolean(state.query);
+    els.clearSearchBtn.classList.toggle("hidden", !hasQuery);
+    els.searchInput.parentElement?.classList.toggle("has-query", hasQuery);
     window.clearTimeout(searchTimer);
     searchTimer = window.setTimeout(loadContacts, 180);
   });
@@ -774,6 +776,7 @@ function bindEvents() {
     els.searchInput.value = "";
     state.query = "";
     els.clearSearchBtn.classList.add("hidden");
+    els.searchInput.parentElement?.classList.remove("has-query");
     els.searchInput.focus();
     loadContacts();
   });

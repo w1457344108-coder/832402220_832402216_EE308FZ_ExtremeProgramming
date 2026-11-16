@@ -233,8 +233,12 @@ body {
   font-size: 0.84rem;
   font-weight: 600;
   font-family: inherit;
-  padding: 4px 4px;
+  padding: 4px 22px 4px 4px;
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none' stroke='%2364748b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
 }
 
 .compact-select:focus {
@@ -371,15 +375,15 @@ body {
 .search-sort-group {
   display: flex;
   flex: 1;
-  min-width: 260px;
-  max-width: 640px;
+  min-width: 280px;
+  max-width: 720px;
   gap: 10px;
   align-items: center;
 }
 
 .search-box {
   flex: 1;
-  min-width: 0;
+  min-width: 240px;
   position: relative;
 }
 
@@ -437,13 +441,19 @@ body {
   border-color: var(--primary);
 }
 
-.search-box input {
-  padding-inline-end: 4rem;
+.search-box.has-query input {
+  padding-inline-end: 4.2rem;
 }
 
 .sort-select {
   width: auto;
-  min-width: 185px;
+  min-width: 195px;
+  padding-right: 32px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 20 20' fill='none' stroke='%2364748b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 11px center;
+  cursor: pointer;
 }
 
 .full-width {
