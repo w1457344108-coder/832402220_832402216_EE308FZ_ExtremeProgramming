@@ -167,8 +167,9 @@ def api_import_contacts():
     if not uploaded.filename.lower().endswith(".xlsx"):
         return jsonify({"error": "Only .xlsx Excel files are supported."}), 400
 
+    duplicate_mode = request.form.get("duplicate_mode", "skip")
     try:
-        result = import_contacts_from_xlsx(uploaded.read())
+        result = import_contacts_from_xlsx(uploaded.read(), duplicate_mode=duplicate_mode)
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
 

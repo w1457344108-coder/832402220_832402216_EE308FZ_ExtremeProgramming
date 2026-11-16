@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,28 +9,55 @@
 <body>
   <div class="app-shell">
     <header class="top-bar">
-      <div class="brand">
-        <div class="brand-icon" aria-hidden="true">AB</div>
-        <div>
-          <h1>Address Book</h1>
-          <p class="brand-subtitle">Bookmark contacts, manage multiple contact methods, and import/export Excel</p>
+      <div class="top-bar-main">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">AB</div>
+          <div>
+            <h1 data-i18n="appTitle">Address Book</h1>
+            <p class="brand-subtitle" data-i18n="appSubtitle">
+              Bookmark contacts, manage multiple contact methods, and import/export Excel
+            </p>
+          </div>
+        </div>
+
+        <div class="appearance-controls" aria-label="Appearance and language settings">
+          <div class="theme-control">
+            <button
+              type="button"
+              class="btn btn-sm btn-ghost-icon"
+              id="quickDarkToggleBtn"
+              title="Toggle Light / Dark"
+              aria-label="Toggle Light or Dark theme"
+            >
+              🌙
+            </button>
+            <select id="themeSelect" class="compact-select" aria-label="Theme style">
+              <option value="light" data-i18n="themeLight">Theme: Light</option>
+              <option value="dark" data-i18n="themeDark">Theme: Dark</option>
+              <option value="ocean" data-i18n="themeOcean">Theme: Ocean Breeze</option>
+              <option value="warm" data-i18n="themeWarm">Theme: Warm Paper</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary lang-btn" id="langToggleBtn" aria-label="Switch language">
+            中文 / EN
+          </button>
         </div>
       </div>
 
       <div class="toolbar-actions">
-        <button type="button" class="btn btn-secondary" id="seedDemoBtn" title="Insert synthetic sample contacts">
+        <button type="button" class="btn btn-secondary" id="seedDemoBtn" data-i18n="btnLoadDemo">
           Load Demo
         </button>
-        <button type="button" class="btn btn-secondary" id="templateBtn" title="Download Excel import template">
+        <button type="button" class="btn btn-secondary" id="templateBtn" data-i18n="btnTemplate">
           Template
         </button>
-        <button type="button" class="btn btn-secondary" id="openImportBtn">
+        <button type="button" class="btn btn-secondary" id="openImportBtn" data-i18n="btnImportExcel">
           Import Excel
         </button>
-        <button type="button" class="btn btn-secondary" id="exportBtn">
+        <button type="button" class="btn btn-secondary" id="exportBtn" data-i18n="btnExportExcel">
           Export Excel
         </button>
-        <button type="button" class="btn btn-primary" id="addContactBtn">
+        <button type="button" class="btn btn-primary" id="addContactBtn" data-i18n="btnNewContact">
           + New Contact
         </button>
       </div>
@@ -46,7 +73,8 @@
           role="tab"
           aria-selected="true"
         >
-          All Contacts <span class="count-pill" id="totalCount">0</span>
+          <span data-i18n="tabAll">All Contacts</span>
+          <span class="count-pill" id="totalCount">0</span>
         </button>
         <button
           type="button"
@@ -56,7 +84,9 @@
           role="tab"
           aria-selected="false"
         >
-          <span class="star-glyph" aria-hidden="true">★</span> Bookmarked <span class="count-pill" id="favoriteCount">0</span>
+          <span class="star-glyph" aria-hidden="true">★</span>
+          <span data-i18n="tabBookmarked">Bookmarked</span>
+          <span class="count-pill" id="favoriteCount">0</span>
         </button>
       </div>
 
@@ -70,10 +100,11 @@
           />
         </div>
         <select id="sortSelect" class="sort-select" aria-label="Sort contacts">
-          <option value="favorites">Sort: Bookmarked First</option>
-          <option value="name">Sort: Name (A–Z)</option>
-          <option value="recent">Sort: Recently Updated</option>
+          <option value="favorites" data-i18n="sortFavorites">Sort: Bookmarked First</option>
+          <option value="name" data-i18n="sortName">Sort: Name (A–Z)</option>
+          <option value="recent" data-i18n="sortRecent">Sort: Recently Updated</option>
         </select>
+        <span class="result-badge" id="resultBadge">0</span>
       </div>
     </section>
 
@@ -85,9 +116,9 @@
         <h2 id="emptyTitle">No contacts yet</h2>
         <p id="emptyDesc">Add a contact manually, load synthetic demo data, or import an Excel (.xlsx) spreadsheet.</p>
         <div class="empty-actions">
-          <button type="button" class="btn btn-primary" id="emptyAddBtn">+ New Contact</button>
-          <button type="button" class="btn btn-secondary" id="emptyDemoBtn">Load Demo Contacts</button>
-          <button type="button" class="btn btn-secondary" id="emptyImportBtn">Import Excel</button>
+          <button type="button" class="btn btn-primary" id="emptyAddBtn" data-i18n="btnNewContact">+ New Contact</button>
+          <button type="button" class="btn btn-secondary" id="emptyDemoBtn" data-i18n="btnLoadDemoContacts">Load Demo Contacts</button>
+          <button type="button" class="btn btn-secondary" id="emptyImportBtn" data-i18n="btnImportExcel">Import Excel</button>
         </div>
       </div>
     </main>
@@ -106,45 +137,49 @@
 
         <div class="form-grid">
           <label class="form-field">
-            <span>Name <strong class="required">*</strong></span>
+            <span><span data-i18n="fieldName">Name</span> <strong class="required">*</strong></span>
             <input type="text" id="nameInput" required maxlength="120" placeholder="e.g. Lin Wei" />
           </label>
 
           <label class="form-field">
-            <span>Company</span>
+            <span data-i18n="fieldCompany">Company</span>
             <input type="text" id="companyInput" maxlength="120" placeholder="e.g. Fuzhou Cloud Tech" />
           </label>
 
           <label class="form-field">
-            <span>Title / Role</span>
+            <span data-i18n="fieldTitle">Title / Role</span>
             <input type="text" id="titleInput" maxlength="120" placeholder="e.g. Backend Engineer" />
           </label>
 
           <label class="favorite-toggle-field">
             <input type="checkbox" id="favoriteInput" />
-            <span>★ Bookmark this contact</span>
+            <span data-i18n="fieldBookmark">★ Bookmark this contact</span>
           </label>
         </div>
 
         <div class="methods-section">
           <div class="methods-header">
             <div>
-              <h3>Contact Methods</h3>
-              <p class="helper-text">Add multiple phone numbers, emails, social handles, or addresses.</p>
+              <h3 data-i18n="methodsHeading">Contact Methods</h3>
+              <p class="helper-text" data-i18n="methodsSubtext">
+                Add multiple phone numbers, emails, social handles, or addresses.
+              </p>
             </div>
-            <button type="button" class="btn btn-sm btn-secondary" id="addMethodRowBtn">+ Add Method</button>
+            <button type="button" class="btn btn-sm btn-secondary" id="addMethodRowBtn" data-i18n="btnAddMethod">
+              + Add Method
+            </button>
           </div>
           <div id="methodsContainer" class="methods-container"></div>
         </div>
 
         <label class="form-field">
-          <span>Notes</span>
+          <span data-i18n="fieldNotes">Notes</span>
           <textarea id="notesInput" rows="2" maxlength="500" placeholder="Optional notes..."></textarea>
         </label>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="cancelContactBtn">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="saveContactBtn">Save Contact</button>
+          <button type="button" class="btn btn-secondary" id="cancelContactBtn" data-i18n="btnCancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveContactBtn" data-i18n="btnSaveContact">Save Contact</button>
         </div>
       </form>
     </div>
@@ -154,16 +189,24 @@
   <div id="importModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="importModalTitle">
     <div class="modal-card modal-card-sm">
       <div class="modal-header">
-        <h2 id="importModalTitle">Import Contacts from Excel</h2>
+        <h2 id="importModalTitle" data-i18n="importModalTitle">Import Contacts from Excel</h2>
         <button type="button" class="icon-close" id="closeImportModal" aria-label="Close">&times;</button>
       </div>
 
       <form id="importForm" class="modal-body">
-        <p class="helper-text">
-          Upload an <strong>.xlsx</strong> spreadsheet where each contact occupies one row and each category occupies a separate column
-          (<code>Name</code>, <code>Favorite</code>, <code>Company</code>, <code>Title</code>, <code>Phone Numbers</code>,
-          <code>Emails</code>, <code>Social Media</code>, <code>Addresses</code>, <code>Other Contacts</code>, <code>Notes</code>).
+        <p class="helper-text" data-i18n="importHelp">
+          Upload an .xlsx spreadsheet where each contact occupies one row and each category occupies a separate column
+          (Name, Favorite, Company, Title, Phone Numbers, Emails, Social Media, Addresses, Other Contacts, Notes).
         </p>
+
+        <label class="form-field">
+          <span data-i18n="duplicateModeLabel">Duplicate Name Handling</span>
+          <select id="duplicateModeSelect" class="sort-select full-width">
+            <option value="skip" data-i18n="dupSkip">Skip contacts whose name already exists</option>
+            <option value="update" data-i18n="dupUpdate">Update existing contact with matching name</option>
+            <option value="allow" data-i18n="dupAllow">Import all rows as new contacts</option>
+          </select>
+        </label>
 
         <div class="file-dropzone">
           <input type="file" id="excelFileInput" accept=".xlsx" required />
@@ -172,9 +215,13 @@
         <div id="importSummary" class="import-summary hidden"></div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="modalTemplateBtn">Download Template</button>
-          <button type="button" class="btn btn-secondary" id="cancelImportBtn">Close</button>
-          <button type="submit" class="btn btn-primary" id="submitImportBtn">Upload &amp; Import</button>
+          <button type="button" class="btn btn-secondary" id="modalTemplateBtn" data-i18n="btnDownloadTemplate">
+            Download Template
+          </button>
+          <button type="button" class="btn btn-secondary" id="cancelImportBtn" data-i18n="btnClose">Close</button>
+          <button type="submit" class="btn btn-primary" id="submitImportBtn" data-i18n="btnUploadImport">
+            Upload &amp; Import
+          </button>
         </div>
       </form>
     </div>

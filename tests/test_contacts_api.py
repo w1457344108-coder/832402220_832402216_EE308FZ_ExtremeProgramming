@@ -7,6 +7,8 @@ def test_index_page_renders(client):
     response = client.get("/")
     assert response.status_code == 200
     assert b"Address Book" in response.data
+    assert b"themeSelect" in response.data
+    assert b"langToggleBtn" in response.data
 
 
 def test_create_update_delete_contact_with_multiple_methods(client):

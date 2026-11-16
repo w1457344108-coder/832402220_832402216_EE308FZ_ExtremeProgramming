@@ -246,6 +246,21 @@ def get_contact(contact_id: int) -> dict[str, Any] | None:
     return _row_to_contact(row, methods_map.get(contact_id, []))
 
 
+def find_contact_by_name(name: str) -> dict[str, Any] | None:
+    """Find the first contact matching the given name (case-insensitive)."""
+    cleaned = name.strip()
+    if not cleaned:
+        return None
+    db = get_db()
+    row = db.execute(
+        "SELECT id FROM contacts WHERE LOWER(TRIM(name)) = LOWER(?) ORDER BY id ASC LIMIT 1",
+        (cleaned,),
+    ).fetchone()
+    if row is None:
+        return None
+    return get_contact(int(row["id"]))
+
+
 def _insert_methods(db: sqlite3.Connection, contact_id: int, methods: list[dict[str, str]]) -> None:
     """Insert ordered contact methods for a given contact."""
     db.executemany(

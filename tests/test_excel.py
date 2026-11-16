@@ -149,3 +149,60 @@ def test_template_download_and_partial_row_skip(client):
     assert data["imported_count"] == 1
     assert data["skipped_count"] == 1
     assert len(data["errors"]) == 1
+
+
+def test_import_duplicate_modes(client):
+    client.post(
+        "/api/contacts",
+        json={
+            "name": "Lin Wei",
+            "company": "Old Co",
+            "methods": [{"method_type": "phone", "label": "Mobile", "value": "13800000001"}],
+        },
+    )
+
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["Name", "Company", "Favorite", "Phone Numbers"])
+    ws.append(["lin wei", "New Co", "Yes", "Work: 0591-88889999"])
+    buf = io.BytesIO()
+    wb.save(buf)
+    xlsx_bytes = buf.getvalue()
+
+    # 1. Default skip mode keeps existing contact unchanged
+    skip_resp = client.post(
+        "/api/contacts/import",
+        data={"file": (io.BytesIO(xlsx_bytes), "dup.xlsx"), "duplicate_mode": "skip"},
+        content_type="multipart/form-data",
+    )
+    assert skip_resp.status_code == 200
+    skip_data = skip_resp.get_json()
+    assert skip_data["imported_count"] == 0
+    assert skip_data["updated_count"] == 0
+    assert skip_data["skipped_count"] == 1
+    assert skip_data["total_count"] == 1
+
+    # 2. Update mode updates the existing contact in place
+    upd_resp = client.post(
+        "/api/contacts/import",
+        data={"file": (io.BytesIO(xlsx_bytes), "dup.xlsx"), "duplicate_mode": "update"},
+        content_type="multipart/form-data",
+    )
+    assert upd_resp.status_code == 200
+    upd_data = upd_resp.get_json()
+    assert upd_data["updated_count"] == 1
+    assert upd_data["total_count"] == 1
+    contacts = client.get("/api/contacts").get_json()["contacts"]
+    assert contacts[0]["company"] == "New Co"
+    assert contacts[0]["is_favorite"] is True
+    assert contacts[0]["methods"][0]["value"] == "0591-88889999"
+
+    # 3. Allow mode creates an additional entry
+    allow_resp = client.post(
+        "/api/contacts/import",
+        data={"file": (io.BytesIO(xlsx_bytes), "dup.xlsx"), "duplicate_mode": "allow"},
+        content_type="multipart/form-data",
+    )
+    assert allow_resp.status_code == 200
+    assert allow_resp.get_json()["imported_count"] == 1
+    assert allow_resp.get_json()["total_count"] == 2

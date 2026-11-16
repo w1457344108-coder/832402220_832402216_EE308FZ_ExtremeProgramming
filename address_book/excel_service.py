@@ -10,7 +10,9 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils.exceptions import InvalidFileException
 
-from .db import DEMO_CONTACTS, create_contact
+from .db import DEMO_CONTACTS, create_contact, find_contact_by_name, update_contact
+
+VALID_DUPLICATE_MODES = {"skip", "update", "allow"}
 
 EXPORT_COLUMNS: tuple[tuple[str, str], ...] = (
     ("name", "Name"),
@@ -202,8 +204,12 @@ def build_template_xlsx() -> bytes:
     return _build_workbook(DEMO_CONTACTS[:2])
 
 
-def import_contacts_from_xlsx(file_bytes: bytes) -> dict[str, Any]:
-    """Parse an uploaded .xlsx file and insert valid contacts into the database."""
+def import_contacts_from_xlsx(file_bytes: bytes, duplicate_mode: str = "skip") -> dict[str, Any]:
+    """Parse an uploaded .xlsx file and insert or update contacts in the database."""
+    mode = (duplicate_mode or "skip").strip().lower()
+    if mode not in VALID_DUPLICATE_MODES:
+        raise ValueError("Invalid duplicate_mode. Expected 'skip', 'update', or 'allow'.")
+
     if not file_bytes:
         raise ValueError("Uploaded file is empty.")
 
@@ -228,6 +234,7 @@ def import_contacts_from_xlsx(file_bytes: bytes) -> dict[str, Any]:
         raise ValueError("Missing required 'Name' column in the first row.")
 
     imported_contacts: list[dict[str, Any]] = []
+    updated_contacts: list[dict[str, Any]] = []
     errors: list[str] = []
     skipped_count = 0
 
@@ -251,22 +258,33 @@ def import_contacts_from_xlsx(file_bytes: bytes) -> dict[str, Any]:
 
         fav_raw = row_texts.get("is_favorite", "").strip().lower()
         is_favorite = fav_raw in TRUTHY_VALUES
+        contact_payload = {
+            "name": name,
+            "company": row_texts.get("company", ""),
+            "title": row_texts.get("title", ""),
+            "notes": row_texts.get("notes", ""),
+            "is_favorite": is_favorite,
+            "methods": methods,
+        }
 
-        created = create_contact(
-            {
-                "name": name,
-                "company": row_texts.get("company", ""),
-                "title": row_texts.get("title", ""),
-                "notes": row_texts.get("notes", ""),
-                "is_favorite": is_favorite,
-                "methods": methods,
-            }
-        )
+        existing = find_contact_by_name(name) if mode in {"skip", "update"} else None
+        if existing is not None:
+            if mode == "skip":
+                skipped_count += 1
+                errors.append(f"Row {row_number}: skipped duplicate contact '{name}'.")
+                continue
+            updated = update_contact(int(existing["id"]), contact_payload)
+            if updated is not None:
+                updated_contacts.append(updated)
+            continue
+
+        created = create_contact(contact_payload)
         imported_contacts.append(created)
 
     return {
         "imported_count": len(imported_contacts),
+        "updated_count": len(updated_contacts),
         "skipped_count": skipped_count,
         "errors": errors,
-        "contacts": imported_contacts,
+        "contacts": imported_contacts + updated_contacts,
     }

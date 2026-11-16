@@ -1,20 +1,139 @@
-:root {
+:root,
+:root[data-theme="light"] {
   --bg: #f4f6fb;
   --surface: #ffffff;
   --surface-muted: #f8fafc;
+  --surface-subtle: #eef2f7;
   --border: #e2e8f0;
   --text: #0f172a;
   --text-muted: #64748b;
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --primary-soft: #eff6ff;
+  --brand-gradient: linear-gradient(135deg, #2563eb, #4f46e5);
   --gold: #f59e0b;
+  --gold-border: #fcd34d;
   --gold-soft: #fffbeb;
+  --gold-card-bg: linear-gradient(180deg, #fffdf5 0%, #ffffff 78px);
+  --gold-avatar-text: #b45309;
   --danger: #dc2626;
   --danger-soft: #fef2f2;
-  --success: #16a34a;
+  --pill-bg: rgba(15, 23, 42, 0.07);
+  --badge-phone-bg: #dbeafe;
+  --badge-phone-text: #1d4ed8;
+  --badge-email-bg: #dcfce7;
+  --badge-email-text: #15803d;
+  --badge-social-bg: #f3e8ff;
+  --badge-social-text: #7e22ce;
+  --badge-address-bg: #ffedd5;
+  --badge-address-text: #c2410c;
+  --badge-other-bg: #e2e8f0;
+  --badge-other-text: #334155;
   --radius: 14px;
   --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --card-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b1120;
+  --surface: #111827;
+  --surface-muted: #1e293b;
+  --surface-subtle: #334155;
+  --border: #273449;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-soft: rgba(59, 130, 246, 0.16);
+  --brand-gradient: linear-gradient(135deg, #3b82f6, #6366f1);
+  --gold: #fbbf24;
+  --gold-border: #d97706;
+  --gold-soft: rgba(245, 158, 11, 0.14);
+  --gold-card-bg: linear-gradient(180deg, rgba(245, 158, 11, 0.11) 0%, #111827 84px);
+  --gold-avatar-text: #fcd34d;
+  --danger: #f87171;
+  --danger-soft: rgba(239, 68, 68, 0.16);
+  --pill-bg: rgba(241, 245, 249, 0.12);
+  --badge-phone-bg: rgba(59, 130, 246, 0.22);
+  --badge-phone-text: #93c5fd;
+  --badge-email-bg: rgba(34, 197, 94, 0.2);
+  --badge-email-text: #86efac;
+  --badge-social-bg: rgba(168, 85, 247, 0.22);
+  --badge-social-text: #d8b4fe;
+  --badge-address-bg: rgba(249, 115, 22, 0.22);
+  --badge-address-text: #fdba74;
+  --badge-other-bg: rgba(148, 163, 184, 0.22);
+  --badge-other-text: #cbd5e1;
+  --shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+  --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="ocean"] {
+  --bg: #ecfeff;
+  --surface: #ffffff;
+  --surface-muted: #f0f9ff;
+  --surface-subtle: #dbeafe;
+  --border: #bae6fd;
+  --text: #0c4a6e;
+  --text-muted: #0369a1;
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --primary-soft: #e0f2fe;
+  --brand-gradient: linear-gradient(135deg, #0284c7, #0d9488);
+  --gold: #f59e0b;
+  --gold-border: #fbbf24;
+  --gold-soft: #fefce8;
+  --gold-card-bg: linear-gradient(180deg, #fefce8 0%, #ffffff 78px);
+  --gold-avatar-text: #b45309;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --pill-bg: rgba(2, 132, 199, 0.12);
+  --badge-phone-bg: #e0f2fe;
+  --badge-phone-text: #0369a1;
+  --badge-email-bg: #ccfbf1;
+  --badge-email-text: #0f766e;
+  --badge-social-bg: #e0e7ff;
+  --badge-social-text: #4338ca;
+  --badge-address-bg: #ffedd5;
+  --badge-address-text: #c2410c;
+  --badge-other-bg: #e2e8f0;
+  --badge-other-text: #334155;
+  --shadow: 0 10px 26px rgba(2, 132, 199, 0.1);
+  --card-shadow: 0 4px 14px rgba(2, 132, 199, 0.07);
+}
+
+:root[data-theme="warm"] {
+  --bg: #f6f1e7;
+  --surface: #fffdf8;
+  --surface-muted: #faf5eb;
+  --surface-subtle: #ede4d3;
+  --border: #e5d8c3;
+  --text: #3b2f24;
+  --text-muted: #7c6a58;
+  --primary: #b45309;
+  --primary-hover: #92400e;
+  --primary-soft: #fef3c7;
+  --brand-gradient: linear-gradient(135deg, #b45309, #d97706);
+  --gold: #d97706;
+  --gold-border: #f59e0b;
+  --gold-soft: #fef3c7;
+  --gold-card-bg: linear-gradient(180deg, #fef9e7 0%, #fffdf8 78px);
+  --gold-avatar-text: #92400e;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --pill-bg: rgba(120, 53, 15, 0.09);
+  --badge-phone-bg: #fde68a;
+  --badge-phone-text: #92400e;
+  --badge-email-bg: #dcfce7;
+  --badge-email-text: #166534;
+  --badge-social-bg: #ede9fe;
+  --badge-social-text: #6d28d9;
+  --badge-address-bg: #fed7aa;
+  --badge-address-text: #9a3412;
+  --badge-other-bg: #e7e5e4;
+  --badge-other-text: #44403c;
+  --shadow: 0 8px 24px rgba(68, 49, 28, 0.08);
+  --card-shadow: 0 4px 14px rgba(68, 49, 28, 0.05);
 }
 
 * {
@@ -27,6 +146,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .hidden {
@@ -36,20 +156,26 @@ body {
 .app-shell {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 28px 20px 56px;
+  padding: 26px 20px 56px;
 }
 
 .top-bar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 16px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 24px;
   box-shadow: var(--shadow);
+}
+
+.top-bar-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
 
 .brand {
@@ -62,7 +188,7 @@ body {
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: var(--brand-gradient);
   color: #fff;
   font-weight: 700;
   font-size: 1.05rem;
@@ -83,10 +209,56 @@ body {
   color: var(--text-muted);
 }
 
+.appearance-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.theme-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px 6px;
+}
+
+.compact-select {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 4px 4px;
+  cursor: pointer;
+}
+
+.compact-select:focus {
+  outline: none;
+}
+
+.btn-ghost-icon {
+  background: transparent;
+  border: none;
+  padding: 4px 6px;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.lang-btn {
+  min-width: 82px;
+}
+
 .toolbar-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 
 .btn {
@@ -129,6 +301,12 @@ body {
 
 .btn-secondary:hover {
   background: var(--surface-muted);
+}
+
+.btn-accent-soft {
+  background: var(--gold-soft);
+  color: var(--gold-avatar-text);
+  border-color: var(--gold-border);
 }
 
 .btn-danger-ghost {
@@ -183,7 +361,7 @@ body {
 }
 
 .count-pill {
-  background: rgba(15, 23, 42, 0.07);
+  background: var(--pill-bg);
   color: inherit;
   border-radius: 999px;
   padding: 1px 8px;
@@ -194,8 +372,9 @@ body {
   display: flex;
   flex: 1;
   min-width: 260px;
-  max-width: 560px;
+  max-width: 640px;
   gap: 10px;
+  align-items: center;
 }
 
 .search-box {
@@ -233,10 +412,25 @@ body {
   min-width: 185px;
 }
 
+.full-width {
+  width: 100%;
+}
+
+.result-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding: 6px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
 .contacts-grid {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
   gap: 18px;
 }
 
@@ -245,7 +439,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -253,8 +447,8 @@ body {
 }
 
 .contact-card.is-favorite {
-  border-color: #fcd34d;
-  background: linear-gradient(180deg, #fffdf5 0%, #ffffff 72px);
+  border-color: var(--gold-border);
+  background: var(--gold-card-bg);
 }
 
 .contact-card-header {
@@ -286,8 +480,8 @@ body {
 
 .contact-card.is-favorite .avatar {
   background: var(--gold-soft);
-  color: #b45309;
-  border: 1px solid #fde68a;
+  color: var(--gold-avatar-text);
+  border: 1px solid var(--gold-border);
 }
 
 .contact-name {
@@ -307,7 +501,7 @@ body {
 .favorite-btn {
   border: 1px solid var(--border);
   background: var(--surface);
-  color: #94a3b8;
+  color: var(--text-muted);
   width: 36px;
   height: 36px;
   border-radius: 10px;
@@ -320,13 +514,13 @@ body {
 }
 
 .favorite-btn:hover {
-  border-color: #fcd34d;
+  border-color: var(--gold-border);
   color: var(--gold);
   background: var(--gold-soft);
 }
 
 .favorite-btn.active {
-  border-color: #fbbf24;
+  border-color: var(--gold-border);
   background: var(--gold-soft);
   color: var(--gold);
 }
@@ -342,10 +536,10 @@ body {
 
 .method-item {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   background: var(--surface-muted);
-  border: 1px solid #eef2f7;
+  border: 1px solid var(--surface-subtle);
   border-radius: 9px;
   padding: 7px 10px;
   font-size: 0.88rem;
@@ -359,28 +553,28 @@ body {
   padding: 2px 7px;
   border-radius: 6px;
   flex-shrink: 0;
-  background: #e2e8f0;
-  color: #334155;
+  background: var(--badge-other-bg);
+  color: var(--badge-other-text);
 }
 
 .method-badge.type-phone {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--badge-phone-bg);
+  color: var(--badge-phone-text);
 }
 
 .method-badge.type-email {
-  background: #dcfce7;
-  color: #15803d;
+  background: var(--badge-email-bg);
+  color: var(--badge-email-text);
 }
 
 .method-badge.type-social {
-  background: #f3e8ff;
-  color: #7e22ce;
+  background: var(--badge-social-bg);
+  color: var(--badge-social-text);
 }
 
 .method-badge.type-address {
-  background: #ffedd5;
-  color: #c2410c;
+  background: var(--badge-address-bg);
+  color: var(--badge-address-text);
 }
 
 .method-label {
@@ -392,14 +586,41 @@ body {
 .method-value {
   color: var(--text);
   word-break: break-all;
+  flex: 1;
+}
+
+.method-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.method-link:hover {
+  text-decoration: underline;
+}
+
+.copy-method-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.copy-method-btn:hover {
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .contact-notes {
   margin: 0;
   font-size: 0.84rem;
   color: var(--text-muted);
-  background: #f8fafc;
-  border-left: 3px solid #cbd5e1;
+  background: var(--surface-muted);
+  border-left: 3px solid var(--border);
   padding: 6px 10px;
   border-radius: 0 8px 8px 0;
 }
@@ -407,7 +628,7 @@ body {
 .contact-card-footer {
   margin-top: auto;
   padding-top: 8px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
@@ -416,7 +637,7 @@ body {
 .empty-state {
   margin-top: 36px;
   background: var(--surface);
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed var(--border);
   border-radius: var(--radius);
   padding: 44px 20px;
   text-align: center;
@@ -447,7 +668,7 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(15, 23, 42, 0.55);
   display: grid;
   place-items: center;
   padding: 18px;
@@ -460,8 +681,10 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.25);
 }
 
 .modal-card-sm {
@@ -520,9 +743,10 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: 10px;
   background: var(--gold-soft);
+  color: var(--text);
   font-size: 0.9rem;
   font-weight: 600;
   align-self: end;
@@ -563,7 +787,7 @@ body {
 
 .method-row {
   display: grid;
-  grid-template-columns: 128px 135px 1fr 36px;
+  grid-template-columns: 128px 140px 1fr 36px;
   gap: 8px;
   align-items: center;
 }
@@ -584,7 +808,7 @@ body {
 }
 
 .file-dropzone {
-  border: 1px dashed #94a3b8;
+  border: 1px dashed var(--border);
   border-radius: 12px;
   padding: 18px;
   background: var(--surface-muted);
@@ -648,5 +872,6 @@ body {
   .search-sort-group {
     max-width: none;
     width: 100%;
+    flex-wrap: wrap;
   }
 }
