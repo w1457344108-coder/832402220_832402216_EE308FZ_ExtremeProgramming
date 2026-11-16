@@ -25,6 +25,9 @@ const I18N = {
     tabAll: "All Contacts",
     tabBookmarked: "Bookmarked",
     searchPlaceholder: "Search name, company, phone, email, social, or address...",
+    searchLabel: "Search contacts (/)",
+    btnClearSearch: "Clear",
+    clearSearchLabel: "Clear search",
     sortFavorites: "Sort: Bookmarked First",
     sortName: "Sort: Name (A–Z)",
     sortRecent: "Sort: Recently Updated",
@@ -115,6 +118,9 @@ const I18N = {
     tabAll: "全部联系人",
     tabBookmarked: "已收藏",
     searchPlaceholder: "搜索姓名、公司、电话、邮箱、社交账号或地址...",
+    searchLabel: "搜索联系人（/）",
+    btnClearSearch: "清空",
+    clearSearchLabel: "清空搜索",
     sortFavorites: "排序：收藏优先",
     sortName: "排序：姓名 A–Z",
     sortRecent: "排序：最近更新",
@@ -208,6 +214,7 @@ const els = {
   tabAll: document.getElementById("tabAll"),
   tabFavorites: document.getElementById("tabFavorites"),
   searchInput: document.getElementById("searchInput"),
+  clearSearchBtn: document.getElementById("clearSearchBtn"),
   sortSelect: document.getElementById("sortSelect"),
   exportBtn: document.getElementById("exportBtn"),
   themeSelect: document.getElementById("themeSelect"),
@@ -291,6 +298,9 @@ function applyLanguage(lang) {
 
   els.langToggleBtn.textContent = t("langButton");
   els.searchInput.placeholder = t("searchPlaceholder");
+  els.searchInput.setAttribute("aria-label", t("searchLabel"));
+  els.clearSearchBtn.setAttribute("aria-label", t("clearSearchLabel"));
+  els.clearSearchBtn.title = t("clearSearchLabel");
   els.nameInput.placeholder = t("namePlaceholder");
   els.companyInput.placeholder = t("companyPlaceholder");
   els.titleInput.placeholder = t("titlePlaceholder");
@@ -755,8 +765,43 @@ function bindEvents() {
   let searchTimer = null;
   els.searchInput.addEventListener("input", (e) => {
     state.query = e.target.value;
+    els.clearSearchBtn.classList.toggle("hidden", !state.query);
     window.clearTimeout(searchTimer);
     searchTimer = window.setTimeout(loadContacts, 180);
+  });
+  els.clearSearchBtn.addEventListener("click", () => {
+    window.clearTimeout(searchTimer);
+    els.searchInput.value = "";
+    state.query = "";
+    els.clearSearchBtn.classList.add("hidden");
+    els.searchInput.focus();
+    loadContacts();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
+    const openModal = [els.importModal, els.contactModal].find(
+      (modal) => !modal.classList.contains("hidden")
+    );
+    if (event.key === "Escape" && openModal) {
+      event.preventDefault();
+      if (openModal === els.contactModal) {
+        closeContactModal();
+        document.getElementById("addContactBtn").focus();
+      } else {
+        closeImportModal();
+        document.getElementById("openImportBtn").focus();
+      }
+      return;
+    }
+    const target = event.target;
+    const isEditing = target instanceof Element && (
+      target.closest("input, textarea, select") || target.isContentEditable
+    );
+    if (event.key === "/" && !openModal && !isEditing) {
+      event.preventDefault();
+      els.searchInput.focus();
+    }
   });
 
   els.sortSelect.addEventListener("change", (e) => {
