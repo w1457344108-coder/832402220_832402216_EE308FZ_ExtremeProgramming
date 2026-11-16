@@ -32,7 +32,7 @@
 | 协作流程说明 | https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/blob/main/docs/COLLABORATION.md |
 | Pull Request 链接 | `[合并队友 PR 后填写真实 PR URL]` |
 | Release 版本链接 | `[发布 v1.0.0 后填写真实 Release URL]` |
-| 在线访问地址（如完成云部署） | `[完成云部署后填写真实公网 URL；若未部署请据实说明]` |
+| 在线访问地址（阿里云部署） | http://8.163.36.172 |
 
 ### 技术栈与本地构建运行方式
 
@@ -103,6 +103,14 @@ tests/                # API、持久化与 Excel 往返导入导出自动化测�
 
 - **导出（`export_contacts_to_xlsx`）**：使用 `openpyxl` 生成 `.xlsx` 文件，确保**每位联系人占一行、每类信息占一列**，列顺序为：`Name`、`Favorite`、`Company`、`Title`、`Phone Numbers`、`Emails`、`Social Media`、`Addresses`、`Other Contacts`、`Notes`。同一类别的多条联系方式按 `Label: Value; ...` 格式组织；单元格设置 `number_format = "@"` 文本格式，避免 `0591-...`、`0086...` 等带前导零的电话号码在 Excel 中丢失前导零。
 - **导入（`import_contacts_from_xlsx`）**：校验 `.xlsx` 文件有效性及首行必须包含 `Name` 列（兼容常见中英文表头别名），支持**同名联系人处理策略**（`skip` 跳过重复、`update` 覆盖更新、`allow` 全部作为新联系人导入），解析各列多条联系方式并保留含 `https://` 的完整链接，跳过空行或缺失姓名的异常行并返回 `imported_count`、`updated_count`、`skipped_count` 与 `errors` 明细。
+
+### 3.5 云服务器部署（Web Deployment，+15 分可选加分项）
+
+项目已部署至**阿里云轻量应用服务器**（公网访问地址：http://8.163.36.172）：
+
+- 通过自动化部署脚本 [deploy/setup_server.sh](https://github.com/w1457344108-coder/832402220_832402216_EE308FZ_ExtremeProgramming/blob/main/deploy/setup_server.sh) 配置独立 Python 虚拟环境与持久化 SQLite 数据库路径。
+- 使用 `Gunicorn`（单 Worker + 4 线程，避免 SQLite 多进程锁竞争）配合 `systemd` 服务实现后台常驻与异常自动重启。
+- 使用 `Nginx` 将 `80` 端口反向代理至 `127.0.0.1:5000`，并配置 `client_max_body_size 12M` 支持 Excel 文件上传。
 
 ---
 

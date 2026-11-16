@@ -79,7 +79,9 @@ Each row represents one contact, and each column represents one information type
 | `Other Contacts` | No | `Website: https://example.com` |
 | `Notes` | No | `Project teammate` |
 
-## Documentation & Collaboration
+## Documentation & Deployment
 
+- Live Cloud Demo (Alibaba Cloud): http://8.163.36.172
+- Cloud Deployment Guide: [docs/DEPLOY_ALIYUN.md](docs/DEPLOY_ALIYUN.md)
 - Code Standards: [docs/CODE_STYLE.md](docs/CODE_STYLE.md)
 - Teammate Fork & PR Guide: [docs/COLLABORATION.md](docs/COLLABORATION.md)
